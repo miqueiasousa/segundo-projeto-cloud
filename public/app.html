@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App</title>
+  </head>
+  <body>
+    <form id="conversor">
+      <div>
+        <label for="left">Moeda de origem</label>
+        <select name="left" id="left">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="BRL">BRL</option>
+          <option value="BTC">BTC</option>
+        </select>
+      </div>
+      <div>
+        <label for="right">Moeda de destino</label>
+        <select name="right" id="right">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="BRL">BRL</option>
+          <option value="BTC">BTC</option>
+        </select>
+      </div>
+      <div>
+        <label for="amount">Valor</label>
+        <input type="text" name="amount" id="amount" />
+      </div>
+      <button type="submit">Converter</button>
+    </form>
+    <div id="result"></div>
+  </body>
+  <script>
+    const form = document.querySelector('#conversor')
+    const result = document.querySelector('#result')
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+
+      result.innerHTML = 'Carregando...'
+
+      const { right, left, amount } = e.target
+
+      fetch(
+        `/converter?origem=${left.value}&destino=${right.value}&valor=${amount.value}`
+      )
+        .then(res => res.json())
+        .then(data => {
+          result.innerHTML = `${right.value} ${data.resultado}`
+        })
+
+      return
+    })
+  </script>
+</html>
