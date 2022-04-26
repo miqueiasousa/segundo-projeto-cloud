@@ -30,32 +30,18 @@ router.get('/app', (req, res) => {
 })
 
 router.get('/converter', async (req, res) => {
-  // A rota vai recebear 3 parametros:
-  // 1. O primeiro parametro é a moeda de origem
-  // 2. O segundo parametro é a moeda de destino
-  // 3. O terceiro parametro é o valor a ser convertido
-  // Deve ser retornado um JSON com o valor convertido
-  // Exemplo:
-  // http://localhost:3000/converter?origem=USD&destino=BRL&valor=100
-  // Retorna:
-  // {
-  //   "resultado": "79.257029"
-  // }
-  //
-  // TODO: Pegar os 3 parametros da requisição (origem, destino, valor)
-  // TODO: Fazer a conversão usando uma api (https://api.exchangerate.host/convert)
-  // TODO: Retornar o resultado no formato JSON
-  //
-  // Como fazer a conversão?
-  // const resposta = await axios(
-  //   'https://api.exchangerate.host/convert?from=USD&to=BRL&amount=100'
-  // )
-  // Para pegar o resultado, basta fazer isso: resposta.data.result
-  //
-  // Como retornar um json:
-  // return res.json({
-  //   resultado: '79.257029'
-  // })
+  var origem = req.query["origem"];
+  var destino = req.query["destino"];
+  var valor = req.query["valor"];
+
+  const resposta = await axios(
+    'https://api.exchangerate.host/convert?from='+origem+'&to='+destino+'&amount='+valor
+  )
+  var resultado = resposta.data.result
+
+  return res.json({
+    resultado: resultado
+  })
 })
 
 export default router
